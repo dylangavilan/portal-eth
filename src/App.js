@@ -11,6 +11,7 @@ const App = () => {
   const checkIfWalletIsConnected = async () => {
     try {
       const { ethereum } = window;
+
       if (!ethereum) {
         console.log("Make sure you have metamask!");
         return;
@@ -96,6 +97,7 @@ const App = () => {
           signer
         );
         const waves = await wavePortalContract.getAllWaves();
+        console.log(waves);
         let wavesCleaned = [];
         waves.forEach((wave) => {
           wavesCleaned.push({
@@ -106,6 +108,7 @@ const App = () => {
         });
         setAllWaves(wavesCleaned);
       } else {
+        alert("Connect metamask!");
         console.log("Ethereum object doesn't exist!");
       }
     } catch (error) {
@@ -114,7 +117,6 @@ const App = () => {
   };
   useEffect(() => {
     checkIfWalletIsConnected();
-    getAllWaves();
   }, []);
   console.log("input", input);
 
@@ -136,6 +138,9 @@ const App = () => {
             Connect Wallet
           </button>
         )}
+      </div>
+      <div>
+        <button onClick={getAllWaves}>View Waves</button>
       </div>
       {allWaves?.map((wave, index) => {
         return (
