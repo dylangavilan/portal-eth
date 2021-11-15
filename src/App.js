@@ -128,7 +128,7 @@ const App = () => {
       <div></div>
 
       {!currentAccount ? (
-        <button className="waveButton" onClick={connectWallet}>
+        <button className="connectwallet" onClick={connectWallet}>
           Connect Wallet
         </button>
       ) : (
@@ -139,7 +139,7 @@ const App = () => {
               Wave at Me
             </button>
           </div>
-          <button onClick={getAllWaves()} className="buttonwaves">
+          <button onClick={() => getAllWaves()} className="buttonwaves">
             View all waves
           </button>
           {allWaves?.map((wave, index) => {

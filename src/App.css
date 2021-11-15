@@ -29,7 +29,13 @@
 
   margin-top: 2rem;
 }
-.waveButton {
+.inputtarget {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-top: 1rem;
+}
+
+.connectwallet {
   display: flex;
   margin: auto;
   margin-top: 2rem;
