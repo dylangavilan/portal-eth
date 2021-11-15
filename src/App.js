@@ -112,9 +112,7 @@ const App = () => {
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
-  useEffect(() => {
-    getAllWaves();
-  }, [allWaves]);
+
   return (
     <div className="mainContainer">
       <div className="header">👋 Hey there!</div>
@@ -141,7 +139,7 @@ const App = () => {
               Wave at Me
             </button>
           </div>
-
+          <button onClick={getAllWaves()}>View all waves</button>
           {allWaves?.map((wave, index) => {
             return (
               <div className="waves" key={index}>
