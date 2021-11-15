@@ -1,38 +1,43 @@
-.App {
+.mainContainer {
+  width: 100vw;
+  height: 100vh;
+  background-color: #0077b6; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to bottom right, #0077b6, #7209b7);
+}
+.header {
+  padding-top: 1rem;
   text-align: center;
+  font-size: 3rem;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.bio {
+  margin: auto;
+  width: 36rem;
+  text-align: center;
+  font-size: 1.4rem;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.bio2 {
+  margin-top: 0.5rem;
+  margin: auto;
+  width: 36rem;
+  text-align: center;
+  font-size: 1.2rem;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.input {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+  margin: auto;
+  width: 20rem;
 
-.App-link {
-  color: #61dafb;
+  margin-top: 2rem;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.waveButton {
+  width: 6rem;
+  height: 2rem;
+}
+.waves {
+  margin: auto;
+  background-color: OldLace;
+  padding: 8px;
+  border-radius: 10px;
+  margin-top: 2rem;
+  width: 30rem;
 }

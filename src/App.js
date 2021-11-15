@@ -7,12 +7,11 @@ const App = () => {
   const [allWaves, setAllWaves] = useState([]);
   const [mined, setMined] = useState(false);
   const [input, setInput] = useState([]);
-  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const contractAddress = "0x67bF472FaC3592Da63621A29539B0407Be9D9792";
   const contractABI = abi;
   const checkIfWalletIsConnected = async () => {
     try {
       const { ethereum } = window;
-
       if (!ethereum) {
         console.log("Make sure you have metamask!");
         return;
@@ -35,12 +34,10 @@ const App = () => {
   const connectWallet = async () => {
     try {
       const { ethereum } = window;
-
       if (!ethereum) {
         alert("Get MetaMask!");
         return;
       }
-
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
@@ -53,22 +50,19 @@ const App = () => {
   const wave = async () => {
     try {
       const { ethereum } = window;
-
       if (ethereum) {
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
-
         const wavePortalContract = new ethers.Contract(
           contractAddress,
           contractABI,
           signer
         );
-
         let count = await wavePortalContract.getTotalWaves();
-
         console.log("Retrieved total wave count...", count.toNumber());
-
-        const waveTxn = await wavePortalContract.wave(input);
+        const waveTxn = await wavePortalContract.wave(input, {
+          gasLimit: 300000,
+        });
         setMined(true);
         console.log("Mining...", waveTxn.hash);
         await waveTxn.wait();
@@ -114,46 +108,51 @@ const App = () => {
       console.log(error);
     }
   };
+  console.log(mined);
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
-  console.log("input", input);
-  console.log("usestate", mined);
+  useEffect(() => {
+    getAllWaves();
+  }, [allWaves]);
   return (
     <div className="mainContainer">
-      <div className="dataContainer">
-        <div className="header">👋 Hey there!</div>
-        {currentAccount ? "Hi " + currentAccount : ""}
-        <div className="bio">I'm Dylan</div>
-        <input onChange={(e) => setInput(e.target.value)}></input>
-        <button className="waveButton" onClick={wave}>
-          Wave at Me
+      <div className="header">👋 Hey there!</div>
+      <div className="bio">
+        I'm Dylan, fullstack developer graduated in bootcamp Henry with a great
+        interest in Blockchain!
+        <br />
+      </div>
+      <div className="bio2">
+        {" "}
+        Connect your Ethereum wallet with Metamask and wave at me!
+      </div>
+      <div></div>
+
+      {!currentAccount ? (
+        <button className="waveButton" onClick={connectWallet}>
+          Connect Wallet
         </button>
-        {!currentAccount && (
-          <button className="waveButton" onClick={connectWallet}>
-            Connect Wallet
-          </button>
-        )}
-      </div>
-      <div>
-        <button onClick={getAllWaves}>View Waves</button>
-        {allWaves?.map((wave, index) => {
-          return (
-            <div
-              key={index}
-              style={{
-                backgroundColor: "OldLace",
-                marginTop: "16px",
-                padding: "8px",
-              }}
-            >
-              <div>Address: {wave.address}</div>
-              <div>Time: {wave.timestamp.toString()}</div>
-              <div>Message: {wave.message}</div>
-            </div>
-          );
-        })}
-      </div>
+      ) : (
+        <div>
+          <div className="input">
+            <input onChange={(e) => setInput(e.target.value)}></input>
+            <button className="waveButton" onClick={wave}>
+              Wave at Me
+            </button>
+          </div>
+
+          {allWaves?.map((wave, index) => {
+            return (
+              <div className="waves" key={index}>
+                <div>Address: {wave.address}</div>
+                <div>Time: {wave.timestamp.toString()}</div>
+                <div>Message: {wave.message}</div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
