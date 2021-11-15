@@ -5,8 +5,9 @@ import { abi } from "./utils/WavePortal.json";
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
   const [allWaves, setAllWaves] = useState([]);
+  const [mined, setMined] = useState(false);
   const [input, setInput] = useState([]);
-  const contractAddress = "0x2F64725b4Da5d6074B3f9b615d879407598a5a9c";
+  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   const contractABI = abi;
   const checkIfWalletIsConnected = async () => {
     try {
@@ -67,13 +68,11 @@ const App = () => {
 
         console.log("Retrieved total wave count...", count.toNumber());
 
-        /*
-         * Execute the actual wave from your smart contract
-         */
         const waveTxn = await wavePortalContract.wave(input);
+        setMined(true);
         console.log("Mining...", waveTxn.hash);
-
         await waveTxn.wait();
+        setMined(false);
         console.log("Mined -- ", waveTxn.hash);
 
         count = await wavePortalContract.getTotalWaves();
@@ -119,7 +118,7 @@ const App = () => {
     checkIfWalletIsConnected();
   }, []);
   console.log("input", input);
-
+  console.log("usestate", mined);
   return (
     <div className="mainContainer">
       <div className="dataContainer">
@@ -130,9 +129,6 @@ const App = () => {
         <button className="waveButton" onClick={wave}>
           Wave at Me
         </button>
-        {/*
-         * If there is no currentAccount render this button
-         */}
         {!currentAccount && (
           <button className="waveButton" onClick={connectWallet}>
             Connect Wallet
@@ -141,23 +137,23 @@ const App = () => {
       </div>
       <div>
         <button onClick={getAllWaves}>View Waves</button>
+        {allWaves?.map((wave, index) => {
+          return (
+            <div
+              key={index}
+              style={{
+                backgroundColor: "OldLace",
+                marginTop: "16px",
+                padding: "8px",
+              }}
+            >
+              <div>Address: {wave.address}</div>
+              <div>Time: {wave.timestamp.toString()}</div>
+              <div>Message: {wave.message}</div>
+            </div>
+          );
+        })}
       </div>
-      {allWaves?.map((wave, index) => {
-        return (
-          <div
-            key={index}
-            style={{
-              backgroundColor: "OldLace",
-              marginTop: "16px",
-              padding: "8px",
-            }}
-          >
-            <div>Address: {wave.address}</div>
-            <div>Time: {wave.timestamp.toString()}</div>
-            <div>Message: {wave.message}</div>
-          </div>
-        );
-      })}
     </div>
   );
 };
