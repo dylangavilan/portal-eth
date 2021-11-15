@@ -139,7 +139,9 @@ const App = () => {
               Wave at Me
             </button>
           </div>
-          <button onClick={getAllWaves()}>View all waves</button>
+          <button onClick={getAllWaves()} className="buttonwaves">
+            View all waves
+          </button>
           {allWaves?.map((wave, index) => {
             return (
               <div className="waves" key={index}>
