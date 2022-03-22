@@ -65,6 +65,7 @@ const App = () => {
         });
         setMined(true);
         console.log("Mining...", waveTxn.hash);
+        console.log("object, waveTxn);
         await waveTxn.wait();
         setMined(false);
         console.log("Mined -- ", waveTxn.hash);
